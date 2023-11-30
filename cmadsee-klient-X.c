@@ -288,5 +288,5 @@ double attack(char text[]){
              x[i] = strtok(array[i], ":");
              t[i] = strtok(NULL, ":");
        }
-       /* x[] i t[] przechowuja nasz sygnal, trzeba teraz z tego zrobic widmo sygnalu"
+       /* x[] i t[] przechowuja nasz sygnal, trzeba teraz z tego zrobic widmo sygnalu" */
 }
