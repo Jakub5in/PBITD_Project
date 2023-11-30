@@ -277,13 +277,16 @@ double attack(char text[]){
        int i = 0;
        char *part = strtok(text, ",");
        char *array[52];
+       char *x[52];
+       char *t[52];
        while(part != NULL){
                   array[i++] = part;
                   part = strtok(NULL, ",");
        }
        for(i = 0; i<52; ++i){
-               printf("\n%s", array[i]);        
+             char *part2;
+             x[i] = strtok(array[i], ":");
+             t[i] = strtok(NULL, ":");
        }
-       /* Na razie konczy sie na array[] która zawiera sygnal zapisany jako x:t */
-       /* Trzeba to podzielic jeszcze raz na dwie tablice zawierajace odpowiedno x i t */
+       /* x[] i t[] przechowuja nasz sygnal, trzeba teraz z tego zrobic widmo sygnalu"
 }
