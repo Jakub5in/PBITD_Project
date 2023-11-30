@@ -271,8 +271,9 @@ return 0;
 
 
 
+/* Funkcja dostaje przechwycony komunikat z sygnalem i bedzie zwracac uzyskany z niego kod dostepu */
 double attack(char text[]){
-       printf("\nATAK\n");
+       /* To wszystko tutaj rozklada tekst na tablice wartosci sygnalu */
        int i = 0;
        char *part = strtok(text, ",");
        char *array[52];
@@ -282,5 +283,7 @@ double attack(char text[]){
        }
        for(i = 0; i<52; ++i){
                printf("\n%s", array[i]);        
-       }           
+       }
+       /* Na razie konczy sie na array[] która zawiera sygnal zapisany jako x:t */
+       /* Trzeba to podzielic jeszcze raz na dwie tablice zawierajace odpowiedno x i t */
 }
