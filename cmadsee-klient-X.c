@@ -37,13 +37,13 @@
 #include "cmadsee.h"  
 
 
-
-
 /* UWAGA: poczatek bloku glownej funkcji ANSI C "int main(){..." zostal przeniesiony do */
 /* pliku "cmadsee.h" w celu zwiekszenia czytelnosci kodu programu modulu CMADSEE-KLIENT */   
 
 
 int i,j;
+char kod1[4];
+char kod2[5] = "15232";
 
 double temp;
 quit = '\0';    
@@ -144,8 +144,12 @@ switch (quit)
   case 'a': /* CYBERATAK "ATK:KOD1:KOD2:KILL:END\n" */     
    fflush(stdin);quit='\0';  /* Do przemyslenia ... */                       
    if((ATKon>=0)&&(ATKon<=5)){ATKon++; /* Zabezpieczenie przed przypadkowym przepelnieniem bufora komunikacyjnego */
-   strcpy(SYGNATURA ,"ATK:ZZZZ:12345:KILL:END\n");     
-   ret = send(s, SYGNATURA, strlen(SYGNATURA), 0);};   
+   gets(kod1);
+   char syg[23];
+   sprintf(syg, "ATK:%s:%s:KILL:END\n", kod1, kod2);
+   printf("\n%s", syg);
+   strcpy(SYGNATURA ,syg);    
+   ret = send(s, SYGNATURA, strlen(SYGNATURA), 0);};
   break;
   case 's': 
    fflush(stdin);quit='\0';  /* Do przemyslenia ... */   
@@ -156,7 +160,10 @@ switch (quit)
   case 'z': /* ODWOLANIE "ATK:KOD1:KOD2:RESET:END\n" */   
    fflush(stdin);quit='\0';  /* Do przemyslenia ... */                            
    if(ATKon>0){ATKon=0; /* Zabezpieczenie przed przypadkowym przepelnieniem bufora komunikacyjnego */ 
-   strcpy(SYGNATURA ,"ATK:ZZZZ:12345:RESET:END\n");       
+   char syg[24];
+   sprintf(syg, "ATK:%s:%s:RESET:END\n", kod1, kod2);
+   printf("\n%s", syg);
+   strcpy(SYGNATURA ,syg);      
    ret = send(s, SYGNATURA, strlen(SYGNATURA), 0);};      
   break;  
   /********************************************* NIE ZMIENIAC! *****************************************/
@@ -194,7 +201,7 @@ switch (SelectTiming)
 
   if(ret!=-1){ /* To nas zabezpiecza przed nieprawidlowym dalszym przetwarzaniem danych */
   iBufferLen = ret;  
-  szInBuffer[iBufferLen] = '\0';   /* Do przemyslenia ... */ 
+  szInBuffer[iBufferLen] = '\0';   /* Do przemyslenia ... */
   
   /* Jezeli mamy zamiar poprawnie interpretowac otrzymywane z CMADSEE-ENGINE dane to         */
   /* NIE nalezy zmieniac znacznikow komunikacyjnych takich jak np: "REP:" oraz ":KON" , itp. */
@@ -205,26 +212,47 @@ switch (SelectTiming)
   
   strcpy(komunikat,szInBuffer);      /* Procedura wewnetrzna systemu CMAD-SEE */ 
   dekodowanie(komunikat,Ttab,Ytab);  /* Procedura wewnetrzna systemu CMAD-SEE */      
-  attack(szInBuffer);
 /* Przyklad prezentacji sygnalu. */
 /* W projekcie nalezy uwzglednic takze inne obiekty opisane w "SiSTLab-SEE Instrukcja uzytkownika" */   
-  UstawWykres (1,30,100,700,250,0,clBlue,1,50,1, 0.0, 10.0,-200.0,200.0,"Sygnal komunikacyjny","Czas [s]","Aplituda sygnalu [-]",Ttab,Ytab,Ttab,Ytab);  
+   UstawWykres (1,30,100,700,250,0,clBlue,1,50,1, 0.0, 10.0,-200.0,200.0,"Sygnal komunikacyjny","Czas [s]","Aplituda sygnalu [-]",Ttab,Ytab,Ttab,Ytab);  
   
-  gendft(Ytab,FxSyg,Fp,Atab, Btab);  /* Procedura wewnetrzna systemu CMAD-SEE */       
-   
-
+   gendft(Ytab,FxSyg,Fp,Atab, Btab);  /* Procedura wewnetrzna systemu CMAD-SEE */   
+       
+       
+   /* Zmienne do szukania najczesciej wystepujacej litery */
+   int matrix[26][19];
+   int strength[26][19];
+   memset(matrix, 0, sizeof(matrix));
+   /* *************************************************** */
    
    for(i=1;i<20;i++){ /* Do przemyslenia ... */ 
- 
-   CzytajObiekt(13,&BitBtn3); /* Panel graficzny--> Ponowne odczytywanie statusu przycisku Stop */
- 	
-   Ctab[i]=moduldft(Atab[i],Btab[i]); /* Procedura wewnetrzna systemu CMAD-SEE */        	
-   Dtab[i]=fazadft( Atab[i],Btab[i]); /* Procedura wewnetrzna systemu CMAD-SEE */
-/* Testowy podglad sekwencji znakow ASCII po kryptoanalizie sygnalu komunikacyjnego (ATK:KOD1) */ 
-/*printf("\n%.5lf\t%c",Ttab[i],dbl2ascii(Ctab[i])); *//* dbl2ascii()-procedura wewnetrzna systemu CMAD-SEE */        
-    
-  } /* Dotyczy: for(i=1;i<20;i++){*/  
+       CzytajObiekt(13,&BitBtn3); /* Panel graficzny--> Ponowne odczytywanie statusu przycisku Stop */
+       Ctab[i]=moduldft(Atab[i],Btab[i]); /* Procedura wewnetrzna systemu CMAD-SEE */
+       Dtab[i]=fazadft( Atab[i],Btab[i]); /* Procedura wewnetrzna systemu CMAD-SEE */
+       /* Testowy podglad sekwencji znakow ASCII po kryptoanalizie sygnalu komunikacyjnego (ATK:KOD1) */ 
+       /* printf("\n%.5lf\t%c",Ttab[i],dbl2ascii(Ctab[i]));*/ /* dbl2ascii()-procedura wewnetrzna systemu CMAD-SEE */
+       matrix[dbl2ascii(Ctab[i])-65][i] = dbl2ascii(Ctab[i]);
+   } /* Dotyczy: for(i=1;i<20;i++){*/
+   
+   for(i = 0; i<26; i++){
+         printf("\n%c\t", 65+i);
+         int i2;
+         for(i2 = 0; i2<19; i2++){
+                char print[5];
+                if(matrix[i][i2] == 0){
+                       sprintf(print, "%d", strength[i][i2]);
+                       sprintf(print, "%s", print);      
+                }else{
+                       strength[i][i2]++;
+                       sprintf(print, "%d", strength[i][i2]);
+                       sprintf(print, "%s", print);  
+                }
+                printf("%s\t",print);
+         }      
+   }
+   
 
+   
  }; /* Dotyczy: ((strstr(szInBuffer,"REP:")*/  
   
  
@@ -267,26 +295,4 @@ return 0;
 /* Powodzenia podczas opracowywania projektu */
 /* prof. J.Szymanda */
 /*---------------------------------------------------------------------------------------------------*/
-}
-
-
-
-/* Funkcja dostaje przechwycony komunikat z sygnalem i bedzie zwracac uzyskany z niego kod dostepu */
-double attack(char text[]){
-       /* To wszystko tutaj rozklada tekst na tablice wartosci sygnalu */
-       int i = 0;
-       char *part = strtok(text, ",");
-       char *array[52];
-       char *x[52];
-       char *t[52];
-       while(part != NULL){
-                  array[i++] = part;
-                  part = strtok(NULL, ",");
-       }
-       for(i = 0; i<52; ++i){
-             char *part2;
-             x[i] = strtok(array[i], ":");
-             t[i] = strtok(NULL, ":");
-       }
-       /* x[] i t[] przechowuja nasz sygnal, trzeba teraz z tego zrobic widmo sygnalu"
 }

@@ -1,0 +1,58 @@
+////////////////////////////////////////////////////////////////////////////////
+//PRZYKLAD DYDAKTYCZNY APLIKACJI DZIALAJACEJ W TRYBIE KONSOLI TEKSTOWEJ ORAZ  //
+//WSPOLDZIALAJACEJ Z PANELEM GRAFICZNYM SISTLAB30 (WERSJA 3.2/2021/11+DLL3.2) //
+////////////////////////////////////////////////////////////////////////////////
+//PRAWA AUTORSKIE DO PAKIETU,OPRACOWANIE I KOMENTARZE: PROF. JAROSLAW SZYMANDA//
+//TESTOWANIE I IMPLEMENTACJE:  DR LESZEK WOZNY                                //
+////////////////////////////////////////////////////////////////////////////////
+//SiSTLab30-Klient -syntaktycznie przygotowany do kompilacji w Dev-C++ 5.11   //
+///////////////////////////////////////////////////////////////////////////// //
+////////////////////////////////////////////////////////////////////////////////
+Opracowanie na podstawie:                                   //////////////////// 
+/////////////////////////    pakiet dydaktyczny SiSTLab30   ////////////////////
+/////////////////////////             wersja 3.1            ////////////////////
+                                  prof. J.Szymanda          
+/////////////////////////  ________________________________ ////////////////////
+/////////////////////////       skrypt w formacie PDF       ////////////////////
+/////////////////////////     http://eportal.eny.pwr.edu.pl ////////////////////
+/////////////////////////       instrukcja u¿ytkownika      ////////////////////  
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+
+1.	wprowadzenie pliku naglowkowego (prototypu) "sistlib.h" z definicjami typow
+	interfejsu wejsciowo-wyjsciowego dla bibliteki dynamicznej "sislib.dll"
+	
+2.	wprowadzenie obiektu "CzytajPozycje" umozliwiajacego odczytywanie pozycji kursora
+	(wskaznika) myszki w obrebie panelu graficznego z poziomu klienta ANSI C	
+	
+3.	wprowadzenie obiektu "Czytajsuwak" umozliwiajacego odczytywanie aktualnej pozycji
+	wskaznika (dostepny wariant poziomy i/lub pionowy)
+	
+4.	w obiekcie "UstawWykres" eliminacja bledu ustawiania w trybie "recznym" 
+	minimalnego oraz maksymalnego zakresu wartoœci dla osi X i Y
+	
+5.  modyfikacja zlozonego przykladu osadzania i sterowania obiektami dynamicznymi
+	"model2.c"
+	
+6.	zwiekszenie liczby parametrow formalnych obiektu "UstawObiekt" z 8 do 11
+
+7.	dolaczenie do pakietu nowego prostego przykladu klienta "suwak.c"
+
+8.	modyfikacja zawartosci pliku "CzytajTO.txt"
+
+9	do dystrybucji pakietu w wersji 3.1 dolaczono nowe wersje plikow:
+	"sistlib.dll" oraz "SiSTLab30.exe" (niekompatybilne z wersja 3.0)
+	
+
+
+
+
+
+
+
+
+(J.Sz. aktualizacja SiSTLab30 do wersji 3.1, 23.05.2019)	
+	  
+
+	

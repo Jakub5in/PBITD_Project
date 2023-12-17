@@ -1,0 +1,284 @@
+////////////////////////////////////////////////////////////////////////////////
+//PRZYKLAD DYDAKTYCZNY APLIKACJI DZIALAJACEJ W TRYBIE KONSOLI TEKSTOWEJ ORAZ  //
+//WSPOLDZIALAJACEJ Z PANELEM GRAFICZNYM SISTLAB30 (WERSJA 3.2/2021/11+DLL3.2) //
+////////////////////////////////////////////////////////////////////////////////
+//PRAWA AUTORSKIE DO PAKIETU,OPRACOWANIE I KOMENTARZE: PROF. JAROSLAW SZYMANDA//
+//TESTOWANIE I IMPLEMENTACJE:  DR LESZEK WOZNY                                //
+////////////////////////////////////////////////////////////////////////////////
+//SiSTLab30-Klient -syntaktycznie przygotowany do kompilacji w Dev-C++ 5.11   //
+///////////////////////////////////////////////////////////////////////////// //
+//TESTOWANIE I IMPLEMENTACJE:  DR INZ.LESZEK WOZNY                            //
+////////////////////////////////////////////////////////////////////////////////
+Opracowanie na podstawie:                                   //////////////////// 
+/////////////////////////    pakiet dydaktyczny SiSTLab30   ////////////////////
+/////////////////////////             wersja 3.1            ////////////////////  
+                                  prof.J.Szymanda                                 
+/////////////////////////  ________________________________ ////////////////////
+/////////////////////////       skrypt w formacie PDF       ////////////////////
+/////////////////////////     http://eportal.eny.pwr.edu.pl ////////////////////
+/////////////////////////       instrukcja u¿ytkownika      ////////////////////  
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+
+Konspekt wybranych ustawien oraz parametow formalnych funkcji pakietu  SiSTLab30
+pomocnych podczas programowania klienta w ANSI C.Szczegolna uwage nalezy zwrocic
+na dopusczalne dla danego obiektu zakresy indeksu (!) nr (!)
+Programy syntaktycznie przygotowane do kompilacji (gcc) w pakiecie Dev-C++ 5.11 
+/////////////////////////////////////////////////////////////////////////////////
+
+1.aktywacja trybu kompilacji (gcc.exe) poprzez ustawienie opcji w pakiecie DEV-C++: 
+
+Narzêdzia --> Opcje kompilatora --> Wytwarzanie/optymalizacja kodu-->Kompilator C 
+--> Zachowaj zgodnoœæ ze standardem ANSI C --> Yes
+Wymagane jest rowniez ustawienie poziomu kompilacji 32-bit Relase lub Debug. 
+W aktualnej wersji pakietu kompilacja na poziomie 64-bit nie jest mozliwa.
+
+////////////////////////////////////////////////////////////////////////////////
+2. wymagane dolaczenie predefiniowanych bibliotek ANSI C
+
+#include <windows.h>
+#include <stdio.h>
+#include <conio.h> 
+#include <stdlib.h> 
+#include <string.h>
+#include <time.h>
+#include <math.h> 
+#include "sistlib.h" 
+////////////////////////////////////////////////////////////////////////////////
+3. funkcje sterujace panelem graficznym z poziomu  programu klenta:
+
+3.1	StartSISTLab();
+	Uruchomienie powiazania klient-panel graficzny 
+////////////////////////////////////////////////////////////////////////////////     
+3.2	StopSISTLab();
+	Zakoñczenie powi¹zania  klient-panel graficzny    
+////////////////////////////////////////////////////////////////////////////////
+3.3	UstawMape(nazwa);
+	nazwa (char[80])-	nazwa pliku graficznego "mapy" panelu (*.emf, *gif, *.jpg)
+////////////////////////////////////////////////////////////////////////////////     
+3.4	UstawObiekt((nr, typ, x, y, w, h, c, v, 0, 0, 0);
+	nr	(word)		- 	(!) indeks przyjmuj¹cy wartoœci 1-10 (!)
+	typ	(double)	-	kszta³t symbolu graficznego
+						0-prostok¹t
+						1-kwadrat
+						2-prostok¹t zaokr¹glony
+						3-kwadrat zaokr¹glony
+						4-elipsa
+						5-ko³o          
+	x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+	y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+	w	(longint)	-	szerokoœæ kszta³tu w pikselach; 0-bez zmiany
+	h	(longint)	-	wysokoœæ kszta³tu w pikselach; 0-bez zmiany
+	c	(longint)	-	kolor wype³nienia kszta³tu ;0-bez zmiany
+	v	(longint)	-	widocznoœæ obiektu
+						0-niewidoczny
+						1-widoczny
+////////////////////////////////////////////////////////////////////////////////
+3.5	UstawObiekt((nr, typ, x, y, w, h, c, v, 0, 0, 0);
+	nr	(word)		-	(!)	indeks przyjmuj¹cy wartoœci 11-20 (!)
+	typ	(double)	-	ustawienie pocz¹tkowe  stanu przycisku 0 lub 1
+	x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+	y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+	w	(longint)	-	parametr  ignorowany, wstawiaæ wartoœæ 0
+	h	(longint)	-	parametr  ignorowany, wstawiaæ wartoœæ 0
+	c	(longint)	-	parametr  ignorowany, wstawiaæ wartoœæ 0
+	v	(longint)	-	widocznoœæ obiektu
+						0-niewidoczny
+						1-widoczny
+////////////////////////////////////////////////////////////////////////////////						
+3.6	UstawObiekt(nr, typ, x, y, w, h, c, v, a, b, p, a, b, p);                   
+		nr	(word)		- 	(!) indeks przyjmuj¹cy wartoœci 31-40 (!)
+		typ	(double)	-	typ suwaka
+						0-poziomy
+						1-pionowy						
+	x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+	y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+	w	(longint)	-	szerokoœæ kszta³tu w pikselach; 0-bez zmiany
+	h	(longint)	-	wysokoœæ kszta³tu w pikselach; 0-bez zmiany
+	c	(longint)	-	blokowanie obiektu
+						0-zabolowany (nieaktywny)
+						1-odblokowany (aktywny)	
+	v	(longint)	-	widocznoœæ obiektu
+						0-niewidoczny
+						1-widoczny						
+	a	(longint)	-	minmalna wartosc zakresu regulacji
+	b	(longint)	-	maksymalna wartosc zakresu regulacji
+	p	(longint)	-	aktualna (ustawiona) wartosc z oznaczonego zakresu reg.
+////////////////////////////////////////////////////////////////////////////////						
+3.7	CzytajObiekt(nr, &typ);
+	nr	(word)		-	(!) indeks przyjmuj¹cy wartoœci 11-20 (!)
+	typ	(double)	-	zwracany stan  przycisku 0 lub 1 (parametr wyjœciowy)
+////////////////////////////////////////////////////////////////////////////////
+3.8	CzytajObiekt(nr, &typ);
+	nr	(word)		-	(!) indeks przyjmuj¹cy wartoœci 21-30 (!)
+	typ	(double)	-	zwracana jest wartoœæ typu double (parametr wyjœciowy)
+////////////////////////////////////////////////////////////////////////////////
+3.9	CzytajSuwak(nr,&p);
+	nr	(word)		-	(!) indeks przyjmuj¹cy wartoœci 31-40 (!)
+	p	(longint)	-	zwracana jest wartoœæ typu longint (parametr wyjœciowy)
+////////////////////////////////////////////////////////////////////////////////
+3.10	UstawNapis(nr, x, y, w, h, v, r, p, c, b, t, s, tekst);
+	nr	(word)		-	(!)	indeks przyjmuj¹cy wartoœci 1-10 (!)
+	x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+	y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+	w	(longint)	-	szerokoœæ w pikselach; 0-bez zmiany
+	h	(longint)	-	wysokoœæ  w pikselach; 0-bez zmiany
+	v	(longint)	-	widocznoœæ obiektu
+						0-niewidoczny
+						1-widoczny
+	r	(longint)	-	obiekt z przeŸroczystym t³em (transparentny)
+						0-niew³¹czony
+						1-w³¹czony
+	p	(longint)	-	obiekt z w³aœciwoœci¹ „wrapword” ("zawijanie tekstu")
+						0-niew³¹czony
+						1-w³¹czony
+	c	(longint)	-	kolor  tekstu; 0-bez zmiany 
+	b	(longint)	-	kolor  t³a; 0-bez zmiany 
+	t	(longint)	-	styl tekstu;
+						0-bez zmiany
+						1-znaki pogrubione	(bold)
+						2-znaki kursyw¹	(italic)				
+						3-znaki	podkreœlone (underline)
+						4-znaki przekreœlone (strikeout)
+						5-po³¹czone style 1 i 2
+						6-po³¹czone style 1 i 3
+						7-po³¹czone style 1 i 2 i 3
+						8-po³¹czone style 2 i 3
+	s	(longint)	-	rozmiar znaków w tekœcie (np. 8, 12, 14 ) pkt
+tekst	(char[80])	-	napis (lancuch tekstowy Ansistring)
+						(parametr wejœciowy)
+////////////////////////////////////////////////////////////////////////////////
+3.11	ZmienNapis(nr, tekst);
+		nr	(word)		- (!) indeks przyjmuj¹cy wartoœci 1-10 (!)
+	tekst	(char[80])	- napis (lancuch tekstowy Ansistring) (parametr wejœciowy)
+////////////////////////////////////////////////////////////////////////////////
+3.12 UstawWykres(nr, x, y, w, h, c1, c2, v, n, a, xmin, xmax, ymin, ymax, tt , xt, yt, ax1, ay1, ax2, ay2);
+	 Dla wykresu liniowego
+	 nr	(word)		-	(!)	indeks przyjmuj¹cy wartoœci 1-5 (!)
+	 Dla wykresu s³upkowego
+	 nr	(word)		-	(!)	indeks przyjmuj¹cy wartoœci 11-15 (!)
+	 x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+	 y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+	 w  (longint)	-	szerokoœæ  w pikselach;  0 -bez zmiany
+	 h  (longint)	-	wysokoœæ  w pikselach;  0 -bez zmiany
+	 c1	(longint)	-	kolor linii/s³upków dla 1-szej serii danych ;
+						0 –wy³¹czenie  pierwszej serii danych  
+	 c2	(longint)	-	kolor linii/s³upków dla 2-giej serii danych ;
+						0 –wy³¹czenie  drugiej serii danych  (2)
+	 v	(longint)	-	widocznoœæ obiektu
+						0-niewidoczny
+						1-widoczny
+	 n	(longint)	-	iloœæ danych wektora X w jednej serii
+	 a	(longint)	-	sposób skalowania osi  dla obu serii danych
+						0-„rêczne” dla obu osi X i Y
+						1-automatyczne dla obu osi X i Y
+						2-„rêczne” dla X; automatyczne dla Y
+						3-automatyczne dla X; „rêczne” dla Y
+	 xmin (double)	-	istotne przy skalowaniu „rêcznym”  osi X
+	 xmax (double)	-	istotne przy skalowaniu „rêcznym”  osi X
+	 ymin (double)	-	istotne przy skalowaniu „rêcznym”  osi Y
+	 ymax (double)	-	istotne przy skalowaniu „rêcznym”  osi Y
+	 tt	 (char[80])	-	tytu³ wykresu
+	 xl	 (char[80])	-	opis osi X (na dole wykresu)
+	 yl	 (char[80])	-	opis osi Y (z lewej strony wykresu)
+	 ax1 (DBLARRAY)	-	wektor 500 elementowy typu double
+	 ay1 (DBLARRAY)	-	wektor 500 elementowy typu double
+	 ax2 (DBLARRAY)	-	wektor 500 elementowy typu double
+	 ay2(DBLARRAY)	-	wektor 500 elementowy typu double
+	
+						* komentarz:
+						  typedef  double  DBLARRAY[500];
+						  DBLARRAY ax1, ay1, ax2, ay2;
+						  wektory ax1 i ax2 muszq miec takie same wartosci
+						  (wspolna os i wariant skalowania osi X)
+////////////////////////////////////////////////////////////////////////////////
+3.13	UstawTekst(nr, x, y, w, h, v, xt, yt, c, b, t, s, tekst);
+		nr	(word)		-	(!)	indeks przyjmuj¹cy wartoœci 1-10 (!)
+		x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+		y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+		w	(longint)	-	szerokoœæ  w pikselach;  0 -bez zmiany
+		h	(longint)	-	wysokoœæ  w pikselach;  0 -bez zmiany
+		v	(longint)	-	widocznoœæ obiektu
+							0-niewidoczny
+							1-widoczny
+		xt	(longint)	-	nr wiersza w oknie „tekstowym” obiektu 
+		yt	(longint)	-	nr kolumny w oknie „tekstowym” obiektu 
+		c	(longint)	-	kolor  znaków wiersza nr „xt” ;0-bez zmian 
+		b	(longint)	-	kolor  t³a wiersza nr „xt” ; 0- bez zmiany 
+		t	(longint)	-	styl znaków wiersza nr „xt” ;
+							0-bez zmiany
+							1-znaki pogrubione	(bold)
+							2-znaki kursyw¹	(italic)				
+							3-znaki	podkreœlone (underline)
+							4-znaki przekreœlone (strikeout)
+							5-po³¹czone style 1 i 2
+							6-po³¹czone style 1 i 3
+							7-po³¹czone style 1 i 2 i 3
+							8-po³¹czone style 2 i 3
+		s	(longint)	-	parametr  ignorowany; wstawiaæ 0
+	tekst	(char[80])	-	napis (lancuch tekstowy Ansistring)
+							(parametr wejœciowy)
+////////////////////////////////////////////////////////////////////////////////
+3.14	UstawTabele(nr, x, y, w, h, lr, lk, wr, c, t, s ,v, tekst);
+		nr	  (word)	-	(!)	indeks przyjmuj¹cy wartoœci 1-10	 (!)
+		x	(longint)	-	wspó³rzêdna pozioma (lewa) obiektu
+		y	(longint)	-	wspó³rzêdna pionowa (górna) obiektu
+		w	(longint)	-	szerokoœæ  w pikselach;  0 -bez zmiany
+		h	(longint)	-	wysokoœæ  w pikselach;  0 -bez zmiany
+		lr	(longint)	-	liczba wierszy (razem z nag³ówkiem)
+		lk	(longint)	-	liczba kolumn 
+		wr	(longint)	-	szerokoœæ  kolumn w pikselach (np. 84)
+		c	(longint)	-	kolor tekstu (w ca³ej tabeli) ; 0-bez zmian 
+		t	(longint)	-	styl tekstu (w ca³ej tabeli);
+					0	-	bez zmiany
+					1	-	znaki pogrubione	(bold)
+					2	-	znaki kursyw¹	(italic)				
+					3	-	znaki	podkreœlone (underline)
+					4	-	znaki przekreœlone (strikeout)
+					5	-	po³¹czone style 1 i 2
+					6	- 	po³¹czone style 1 i 3
+					7	- 	po³¹czone style 1 i 2 i 3
+					8	- 	po³¹czone style 2 i 3
+		s	(longint)	-	rozmiar wyœwietlanych  znaków 
+					 (np. 8, 12, 14) pkt
+		v	(longint)	-	widocznoœæ obiektu
+					0	-	niewidoczny
+					1	-	widoczny
+	tekst (char[2048]) - (!) tekst typu:  char tekst[2048]  (!)
+	
+							* komentarz:							
+							Przygotowanie danych  dla tabeli w formie jednego ³añcucha tekstowego. 
+							Separatorem kolumn w ³añcuchu jest znak œrednika  ;  							
+							np. dla tabeli z dwoma kolumnami:   ”;%.4f;%.2E”
+
+							* przyk³ad z przogramu model1.c : 
+
+							char   s10[1024],s20[1024];  /* maksymalnie [2048] */
+							strcpy(s20,";A;B;C;D");  /* ustawienie nag³ówka tabeli */
+							for (j=0;j<5;j++){ /* tabela bêdzie wype³niona 5 wierszami*/
+							sprintf(s10,";%15.2lf;%15.2lf;%15.2lf;%15.2lf",ext[rand()%14],ext[rand()%14],ext[rand()%14],ext[rand()%14]);
+							strcat(s20,s10);}
+							UstawTabele(1,50,720,450,120,6,4,104,clBlack,1,1,1,s20);  
+							/* wstawiona tabela zawiera 6 wierszy (z nag³ówkiem) i 4 kolumny */
+////////////////////////////////////////////////////////////////////////////////
+3.15	CzytajPozycje(&x,&y);
+		x - aktualna wspó³rzêdna pozioma wskaznika(kursora) myszki w ramach pulpitu graficznego	
+		y - aktualna wspó³rzêdna pionowa wskaznika(kursora) myszki w ramach pulpitu graficznego	
+////////////////////////////////////////////////////////////////////////////////
+
+4. Przykladowa dystrybucja plikow zrodlowych klienta panelu graficznego SiSTLab30 (ANSI C)
+
+4.1 model2.c	-	rozbudowany przyklad klienta z wieloma obiektami statycznymi i dynamicznymi 
+4.2 edycja.c	-	prosty przyklad klienta z wykorzystaniem obiektow: UstawObiekt, CzytajObiekt 
+4.3 ksztalty.c	-	prosty przyklad klienta z wykorzystaniem obiektow: UstawObiekt. CzytajObiekt 
+4.4 tabela.c	-	prosty przyklad klienta z wykorzystaniem obiektow: UstawObiekt, CzytajObiekt, UstawNapis, UstawTabela 
+4.5 ksztalty.c	-	prosty przyklad klienta z wykorzystaniem obiektow: UstawObiekt, CzytajObiekt, UstawWykres 
+4.6 suwak.c		-	prosty przyklad klienta z wykorzystaniem obiektow: UstawObiekt, CzytajObiekt, CzytajSuwak 
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+J.Sz.’5.10.2014 r.(wersja 2.0 ),  04.2019 r. (wersja 3.0/3.1)  11.2021 r. (wersja 3.0/3.2)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////

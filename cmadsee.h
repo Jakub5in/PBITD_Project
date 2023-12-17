@@ -89,6 +89,5 @@ dbl2ascii = (DBL2ASCII) GetProcAddress (hSistnum, "Dbl2ASCIIC");
    int iOptVal = 0;				/* Informacja CMADSEE-ENGINE */
    int iOptLen = sizeof (int);  /* Informacja CMADSEE-ENGINE */  
    int SelectTiming;			/* Informacja CMADSEE-ENGINE */	
-   double attack(char text[]);
 /* zakonczenie zastrzezonego bloku, ktorego poczatek byl oznaczony:  ***** BEGIN ******** */
 /*** END ******** END ********** END ********* END ********** END ********* END ******    */  
